@@ -1,0 +1,2109 @@
+1 ABORT
+ Calls the program's cleanup code, then enters Supervisor command
+ wait state.  The program can not be CONTINUEd.
+
+ Format:
+    ABORT
+1 ATTACH
+ Specifies the hardware characteristics of, and the  path  to,  a
+ UUT  (Unit  Under Test) to be used by the Supervisor and/or by a
+ program.
+
+ Each device has a "link", which it  attaches  to.   Unless  this
+ link  is the HUB (or SBI, CMI, or other legal synonyms thereof),
+ the link device  must  have  been  previously  attached  itself.
+ Therefore,  the  ATTACH  database  grows  in  a  branching  tree
+ structure, outwards from the main system bus.
+
+ Type "HELP DEVICE"  for  detailed  information  on  ATTACHing  a
+ particular  device  known  to  the  Supervisor, or "HELP program
+ DEVICE" for information on ATTACHing  a  device  specific  to  a
+ program.
+
+ Format:
+    ATTACH UUT-type link-name generic-name [device-specific]
+2 Parameters
+ UUT-type
+   The standard hardware designator for  the  device  to  be
+   attached.
+
+   Examples:
+    RH780, DW780, TE16, RK07
+
+ link-name
+   The generic  device  name  connecting  the  UUT,  usually
+   through intermediate links, to the main bus.
+
+   Examples:
+    DW0, RH0, MTA, HUB, DMA
+
+ generic-name
+   Uniquely identifies the particular device being ATTACHed,
+   by   device   mnemonic,   and   controller  and  unit  if
+   appropriate.
+
+   Examples:
+    DW0, RH0, DMA0, TTB1, MTA
+
+   Type "HELP SPECIFY DEVICE"  for  information  on  generic
+   name conventions.
+
+ device-specific
+   Some devices require specialized information to allow the
+   Supervisor  or  program  to  access the device correctly.
+   For example,  a  device  attached  directly  to  the  HUB
+   requires HUB TR (slot) and BR numbers;  a device attached
+   directly to the UNIBUS requires UNIBUS CSR,  vector,  and
+   BR  numbers.  If information required for a device is not
+   included in  the  ATTACH  command,  the  Supervisor  will
+   prompt  individually  for  the required data.  Type "HELP
+   DEVICE" or  "HELP  program  DEVICE"  for  information  on
+   devices.
+1 CLEAR
+ Alters characteristics of Supervisor and/or program by  clearing
+ flags, breakpoints, etc.
+
+ Format:
+    CLEAR option
+2 BREAKPOINT
+ Clears the program breakpoint set at the specified address
+
+ Format:
+    CLEAR BREAKPOINT address
+3 Parameters
+ address
+   The address at which  the  breakpoint  was  set,  or  the
+   keyword "ALL" to remove all breakpoints.
+2 ENFORCE
+ Disables device name enforcment.   It  will  cause  VDS  to
+ behave  as it did prior to this enhancement.  CLEAR ENFORCE
+ is the default condition when VDS is run under  control  of
+ APT.  See HELP SET ENFORCE for an example.
+
+ Format:
+    CLEAR ENFORCE
+2 EVENT
+ Causes event flags to be cleared.   Some  programs  utilize
+ event flags to specify non-standard program options.
+
+ Format:
+    CLEAR EVENT [FLAGS] arg-list
+3 Parameters
+ arg-list
+   A list of event flag numbers, from decimal 1 to 23, to be
+   cleared;   separated  by  commas.  Or, alternatively, the
+   keyword "ALL" will clear all event flags.
+2 FLAGS
+ Causes the Supervisor control flags  to  be  cleared.   The
+ "FLAGS" keyword is optional and may be omitted.
+
+ Format:
+    CLEAR [FLAGS] arg-list
+3 Parameters
+ arg-list
+   A list of flag names to be cleared, separated by  commas.
+   Type   "HELP  SPECIFY  FLAGS"  for  information  on  flag
+   keywords and their significance.
+1 CONTINUE
+ Continue program execution from  where  it  was  halted  due  to
+ halt-on-error or ^C interrupt.
+
+ Format:
+    CONTINUE
+1 CONTROL-C
+ Interrupts execution of Supervisor  or  diagnostic  program  and
+ enters  Supervisor command wait state.  Execution can be resumed
+ by CONTINUE or terminated by ABORT (ABORT has  no  effect  if  a
+ Supervisor function was interrupted).
+
+ Format:
+    ^C
+1 CRD
+ The  CUSTOMER  RUNNABLE  DIAGNOSTIC  (CRD)  Package  is  a   VAX
+ Diagnostic  Supervisor  supported  test  system  that  allows an
+ inexperienced user the capability of verifying  proper  hardware
+ operation  by  executing  VAX  Diagnostics.   It  provides quick
+ isolation of failures to the subsystem level.
+
+  o  Off-Line AUTOTEST
+
+     VAX-11/730 supported and verifies the operation of CPU,  VMS
+     system  disk,  and diagnostic load disk.  It is invoked ONLY
+     IN CONSOLE  MODE  by  typing  "T"  to  the  Console  prompt.
+     Successful completion initiates CRD Off-line Menu.  For more
+     information type to Supervisor prompt "HELP ENSAB AUTO".
+
+  o  Off-line MENU
+
+     VAX-11/730  supported  and   verifies   operation   of   all
+     subsystems  including  options.   The Menu format provides a
+     simple  interface  to  select  and  test  one  or  all   VAX
+     subsytems.  It is invoked in Console mode by typing "T/M" to
+     the Console prompt, or in Supervisor mode by typing "CRD" to
+     the  Supervisor  prompt.   For  more information type to the
+     Supervisor prompt "HELP ENSAB MENU".
+
+1 DEATTACH
+ Reverses the effect of an ATTACH command.  The specified  device
+ Ptable  is  deleted.   Since  Ptables  are linked in a tree-like
+ fashion, the DEATTACH command, as  well  as  'de-attaching'  the
+ specified  device,  will  de-attach  all devices which have been
+ attached to the specified device.  For example,  if  the  device
+ DW0  had  been  attached to the HUB, and devices DMA and TTA had
+ been attached to  DW0,  and  devices  DMA0  and  TTA0  had  been
+ attached     to     them     (respectively),     the     command
+ 'DEATTACH/ADAPTER=HUB DW0' would cause  deletion  of  DW0,  DMA,
+ TTA,  DMA0,  and  TTA0.   A  message  will be typed out for each
+ device  which  is  de-attached.   The  qualifier  '/ADAPTER'  is
+ required, and may either precede or follow the device name.
+
+ Format:
+    DEATTACH/ADAPTER=link device
+    [or]
+    DEATTACH device /ADAPTER=link
+2 Parameters
+ device
+   The generic name of the device to  be  de-attached.   All
+   devices  which  are  linked  to  this device will also be
+   de-attached.
+2 Qualifiers
+/ADAPTER=link
+ This qualifier is required for the  DEATTACH  command.   It
+ specifies  the generic name of te device to which parameter
+ 'device' is linked.  For example, if device DW0  is  to  be
+ de-attached   from   link   HUB,   the   command  would  be
+ 'DEATTACH/ADAPTER=HUB DW0'.
+1 DEPOSIT
+ Modifies the contents of a memory address.  The  data  type  and
+ radix are specified by qualifiers or by data radix control (type
+ "HELP SPECIFY RADIX" for radix control information).
+
+ Format:
+    DEPOSIT [qualifiers] address data
+2 Parameters
+ address
+   Memory address (physical address if memory management  is
+   disabled,  or  virtual  address  if  memory management is
+   enabled) at which to deposit  the  data  value.   Specify
+   address in current radix.
+
+   Or a  general  register  may  be  modified.   Type  "HELP
+   SPECIFY REGISTER" for information.
+
+   Or an internal processor register (IPR) may be  modified.
+   Type "HELP SPECIFY IPR" for IPR definitions.
+
+ data
+   Value in current radix to be deposited at  the  specified
+   address.
+2 Qualifiers
+/NEXT=n
+ Deposit the data in the next n locations.  n is  a  decimal
+ number.
+/LONGWORD
+ Alter a 4-byte data segment at address
+/WORD
+ Alter a 2-byte data segment at address
+/BYTE
+ Alter a 1-byte data segment at address
+/HEXADECIMAL
+ Set default radix for command to hexadecimal (base 16).
+/DECIMAL
+ Set default radix for command to decimal (base 10).
+/OCTAL
+ Set default radix for command to octal (base 8).
+1 DESELECT
+ Specify that a device previously selected for testing is not  to
+ be  tested.   No  program  will  be allowed access to the device
+ until it  is  SELECTed.   When  a  device  is  ATTACHed,  it  is
+ deselected  by  default;  and a device must have been previously
+ attached before it can be manually DESELECTed.
+
+ Format:
+    DESELECT [Qualifiers] device-list
+2 Parameters
+ device-list
+   A  list  of  generic  device  names  to  be   deselected,
+   separated by commas.  Or alternatively, the keyword "ALL"
+   to deselect all devices.  Type "HELP SPECIFY DEVICE"  for
+   device name syntax.
+2 Qualifiers
+/ADAPTER=name
+ Limit the DESELECT command to only affect devices which are
+ attached  to  the  device  with  generic  name 'name'.  For
+ example,  the  command  'DESELECT/ADAPTER=HUB   ALL'   will
+ deselect  only devices attached directly to HUB (e.g., DW0,
+ KA0).  This does NOT include the link  device  itself,  nor
+ any devices attached to the deselected devices.
+1 Devices
+ As well as the "device-independent" parameters required  by  the
+ ATTACH  command  for  any  device,  most devices require device-
+ dependent information.  Type "HELP DEVICE device-designator" for
+ information on a specific device, or "HELP DEVICE..." for a list
+ of all devices' requirements.  If the device is not listed here,
+ it  is  known only within the diagnostic program(s) that use it;
+ type "HELP program DEVICE" for information on  it  (e.g.,  "HELP
+ EVRAA DEVICE").
+
+ Device parameters include the legal range of  values  in  square
+ brackets  (e.g.,  "[decimal  4-7]"  for  BR  level),  and device
+ standard values in angle brackets (e.g., "<776750>" for the AA11
+ CSR).
+2 AA11K
+ Description:   AA11K 4-channel digital to analog converter
+ link:      DWn
+ Generic name:  AAan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]<776750>
+    UNIBUS vector [octal 2-776]<140>
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVALB, EVALF
+2 AD11K
+ Description:   AD11K 12-bit analog to digital converter
+ link:      DWn
+ Generic name:  ADan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVALF, EVALC
+2 CI750
+ Description:   CI750 11/750 computer interconnect port
+ link:      CMI
+ Generic name:  PAan
+ Additional information:
+    SLOT number [decimal 10-15]
+    BR level [decimal 4-7]
+    Node number [decimal 0-255]
+ Tested by: ECCGA, ECCGB, ECCGC, ECCGD, ECCGE
+            EVGAA, EVGAB
+2 CI780
+ Description:   CI780 11/780 computer interconnect port
+ link:      SBI
+ Generic name:  PAan
+ Additional information:
+    TR number [decimal 1-15]
+    BR level [decimal 4-7]
+    Node number [decimal 0-255]
+ Tested by: ESCGA, ESCGB, ESCGC, ESCGD, EVGAA, EVGAB
+2 CR11
+ Description:   CR11 Card reader
+ link:      DWn
+ Generic name:  CRan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]<777160>
+    UNIBUS vector [octal 2-776]<230>
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVABA
+2 DMC11
+ Description:   DMC11 Synchronous single line interface
+ link:      DWn
+ Generic name:  XMan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVDBA, EVDBB, ESDCA, EVDXA
+2 DMF32A
+ Description:   DMF32 Asynchronous Port
+ link:      DWn
+ Generic name:  TXan
+ Tested by: EVDAC, EVDLC
+2 DMF32P
+ Description:   DMF32 Parallel Port
+ link:      DWn
+ Generic name:  LCa
+ Tested by: EVDLD
+2 DMF32S
+ Description:   DMF32 Synchronous Port
+ link:      DWn
+ Generic name:  XGan
+ Tested by: EVDLA, EVDLB
+2 DMP11
+ Description:   DMP11 Multi-drop comm. interface
+ link:      DWn
+ Generic name:  XDan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVDBA, EVDMA, EVDMB, EVDXA
+2 DMR11
+ Description:   DMR11 Synchronous single line interface
+ link:      DWn
+ Generic name:  XMan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVDMA, EVDXA
+2 DN11
+ Description:   DN11 Automatic calling unit interface
+ link:      DWn
+ Generic name:  DNan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 0-776]
+    UNIBUS BR level [decimal 4-7]
+    Y-OPTION [YES/NO]
+    Z-OPTION [YES/NO]
+ Tested by: EVDNB
+2 DR11B
+ Description:   DR11B General purpose DMA interface
+ link:      DWn
+ Generic name:  XBan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]<772410>
+    UNIBUS vector [octal 2-776]<124>
+    UNIBUS BR level [decimal 4-7]
+ Tested by: ESDRA, EVDRE
+2 DR11K
+ Description:   DR11K General purpose parallel I/O interface
+ link:      DWn
+ Generic name:  XRan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVALD, EVALF
+2 DR11W
+ Description:   DR11W General purpose DMA I/O interface
+ link:      DWn
+ Generic name:  XAan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVDRB, EVDRE
+2 DR750
+ Description:   DR750 CMI parallel interface
+ link:      HUB
+ Generic name:  XFan
+ Additional information:
+    slot number [decimal 1-15]
+    BR number [decimal 4-7]
+    Self test [YES/NO]
+    Test configuration [1CPU,2CPU]
+    Test unit [YES/NO]
+ Tested by: EVDFD, EVDFE, EVDFF, EVDFG, EVDFK
+            ECDFA, ECDFB, ECDFK
+2 DR780
+ Description:   DR780 SBI parallel interface
+ link:      HUB
+ Generic name:  XFan
+ Additional information:
+    TR number [decimal 1-15]
+    BR number [decimal 4-7]
+    Self test [YES/NO]
+    Test configuration [1CPU,2CPU]
+    Test unit [YES/NO]
+ Tested by: ESDFA, ESDFB, ESDFC, EVDFD, EVDFE,
+            EVDFF, EVDFG, EVDFK
+2 DUP11
+ Description:   DUP11 Synchronous single line interface
+ link:      DWn
+ Generic name:  XWan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+ Tested by: ESDCA, EVDUP, EVDUQ
+2 DW730
+ Description:   DW730 11/730 UNIBUS adapter
+ link:      HUB
+ Generic name:  DW0
+ Tested by: micro-diagnostics only
+2 DW750
+ Description:   DW750 11/750 UNIBUS adapter
+ link:      HUB
+ Generic name:  DWn
+ Tested by: ECCBA
+2 DW780
+ Description:   DW780 11/780 UNIBUS adapter
+ link:      HUB
+ Generic name:  DWn
+ Additional information:
+    TR number [decimal 1-15]<3>
+    BR number [decimal 4-7]<5>
+ Tested by: ESCBA
+2 DZ11
+ Description:   DZ11 Asynchronous multi-line communications interface
+ link:      DWn
+ Generic name:  TTa
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+    MODULE TYPE [EIA/20MA]
+2 DZ32
+ Description:   DZ32 Asynchronous multi-line communications interface
+ link:      DWn
+ Generic name:  TTa
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVDAB
+2 IEU11A
+  Description:   IEU11-A Dual IEC/IEEE Bus Controller
+  link:         DWn
+  Generic name:  IXa
+  Additional information:
+    UNIBUS Base [octal 760000-777760]
+        UNIBUS vector [octal 0-774]
+        UNIBUS BR level [decimal 4-7]
+  Tested by:     EVCDB, EVCDC
+2 KA730
+ Description:   KA730 11/730 central processor
+ link:      HUB
+ Generic name:  KAn
+ Additional information:
+    Time-of-year clock? [Yes/No]
+    WCS last address? [hex 0-FFFF]
+    Accelerator type? [decimal 0-255]
+    K-bytes of Main Memory? [decimal 0-5120]
+    User WCS loaded? [Yes/No]
+    SB errors? [Yes/No]
+ Tested by: EVKAA, EVKAB, EVKAC, EVKAD, EVKAE,
+        EVXBB, ENKAX
+2 KA750
+ Description:   KA750 11/750 central processor
+ link:      HUB
+ Generic name:  KAn
+ Additional information:
+    G-floating instructions? [Yes/No]
+    H-floating instructions? [Yes/No]
+    Time-of-year clock? [Yes/No]
+    WCS last address? [hex 0-FFFF]
+    Accelerator type? [decimal 0-255]
+ Tested by: EVKAA, EVKAB, EVKAC, EVKAD, EVKAE,
+        EVXBB, ECKAX
+2 KA780
+ Description:   KA780 11/780 central processor
+ link:      HUB
+ Generic name:  KAn
+ Additional information:
+    G-floating instructions? [Yes/No]
+    H-floating instructions? [Yes/No]
+    WCS last address? [hex 0-FFFF]
+    Accelerator type? [decimal 0-255]
+ Tested by: EVKAA, EVKAB, EVKAC, EVKAD, EVKAE,
+        EVXBB
+2 KMC11
+ Description:   KMC11 Auxiliary Communications Processor
+ link:      DWn
+ Generic name:  XKan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVDHA, EVDXA
+2 KMS11
+ Description:   KMS11 Data Communications Link
+ link:      DWn
+ Generic name:  YYa
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+    MODEMCSR   [octal 760000-777776]
+ Tested by: EVDHA, EVDHB, EVDIA, EVDIB, EVDIE, EVDJA, EVDKA
+2 KMSYG
+ Description:   VAX to PDP11 communication link
+ link:      DWn
+ Generic name:  YGa
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVDMF
+2 KW11K
+ Description:   KW11K General purpose watchdog timer
+ link:      DWn
+ Generic name:  KWan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVALE, EVALF
+2 LA34
+ Description:   LA34 DECwriter IV printing terminal
+ link:      TTa
+ Generic name:  TTan
+ Tested by: EVTAA, EVTBA, EVXBA
+2 LA36
+ Description:   LA36 DECwriter II printing terminal
+ link:      TTa
+ Generic name:  TTan
+ Tested by: EVTAA, EVTBA, EVXBA
+2 LA38
+ Description:   LA38
+ link:      TTa
+ Generic name:  TTan
+ Tested by: EVTAA, EVTBA, EVXBA
+2 LA120
+ Description:   LA120 DECwriter III printing terminal
+ link:      TTa
+ Generic name:  TTan
+ Tested by: EVTAA, EVTBA, EVXBA
+2 LA180
+ Description:   LA180 DECprinter I line printer
+ link:      LPa
+ Generic name:  LPan
+ Tested by: EVAAA, EVXBA, EVXBB
+2 LN01
+ Description:   LN01 Laser line printer
+ link:      LCa
+ Generic name:  LCan
+ Tested by: EVAAA
+2 LP04
+ Description:   LP04 Line printer
+ link:      LPa
+ Generic name:  LPan
+ Tested by: EVAAA, EVXBA, EVXBB
+2 LP05
+ Description:   LP05 Line printer
+ link:      LPa
+ Generic name:  LPan
+ Tested by: EVAAA, EVXBA, EVXBB
+2 LP06
+ Description:   LP06 Line printer
+ link:      LPa
+ Generic name:  LPan
+ Tested by: EVAAA, EVXBA, EVXBB
+2 LP11
+ Description:   LP11 Line printer controller
+ link:      DWn
+ Generic name:  LPa
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]<777514>
+    UNIBUS vector [octal 2-776]<200>
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVAAA, EVXBA, EVXBB
+2 LP14
+ Description:   LP14 Line printer
+ link:      LPa
+ Generic name:  LPan
+ Tested by: EVAAA, EVXBA, EVXBB
+2 LP25
+ Description:   LP25 Line printer (band)
+ link:      LPa
+ Generic name:  LPan
+ Tested by: EVAAA
+2 LPA11K
+ Description:   LPA11K Laboratory subsystem controller
+ link:      DWn
+ Generic name:  LAan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]<770460>
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVALA, EVDXA
+2 MA780
+ Description:   MA780 11/780 Multi-port memory controller
+ link:      HUB
+ Generic name:  MAn
+ Additional information:
+    TR number [decimal 1-15]
+    BR number [decimal 4-7]
+    MPM [decimal 0-3]
+    PORT [decimal 0-3]
+ Tested by: ESCCA, EVXBB
+2 MBE
+ Description:   MBE Massbus exerciser
+ link:      RHn
+ Generic name:  MBan
+ Additional information:
+    drive [decimal 0-7]
+ Tested by: ESCCA, EVXBA
+2 ML11
+ Description:   ML11 Solid state disk
+ link:      RHn
+ Generic name:  EMan
+ Additional information:
+    Array boards [decimal 1-16]
+    Chip size [16K, 64K]
+ Tested by: EVXBA, EVRAA, EVRAC, EVRBA, EVRCA,
+            EVXBB
+2 MS750
+ Description:   MS750 11/750 memory controller
+ link:      HUB
+ Generic name:  MSn
+ Additional information:
+    BR number [decimal 4-7]
+ Tested by: ECKAM, EVXBB
+2 MS780
+ Description:   MS780 11/780 memory controller
+ link:      HUB
+ Generic name:  MSn
+ Additional information:
+    TR number [decimal 1-15]
+    Number of Arrays [decimal 0-16]
+ Tested by: EVXBB
+2 PCL11
+ Description:   PCL11-B Parallel communications link
+ link:      DWn
+ Generic name:  XPn
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVDPC, EVDPD, EVDPE, ESDPA, ESDPB
+2 R80
+ Description:   R80 fixed media disk (IDC)
+ link:      DQa
+ Generic name:  DQan
+ Tested by: EVRAA, EVRAD, ENRGA, ENRKA
+2 RA60
+ Description:   RA60 removable media SDI disk
+ link:      DUa
+ Generic name:  DUan
+ Tested by: EVRLA, EVRLB
+2 RA80
+ Description:   RA80 fixed media SDI disk
+ link:      DUa
+ Generic name:  DUan
+ Tested by: EVRLA, EVRLB
+2 RA81
+ Description:   RA81 fixed media SDI disk
+ link:      DUa
+ Generic name:  DUan
+ Tested by: EVRLA, EVRLB
+2 RB730
+ Description:   Nebula IDC disk controller
+ link:      HUB
+ Generic name:  DQa
+ Tested by: micro-diagnostics
+2 RC11
+ Description:   UNIBUS to disk controller
+ link:      DWn
+ Generic name:  DUa
+ Additional information:
+    IP (CSR) [octal 760000-777774]
+    UNIBUS vector [octal 4-774]
+    UNIBUS BR level [decimal 4-7]
+ Tested by:
+2 RC25
+ Description:   RC25 removable media disk
+ link:      DUa
+ Generic name:  DUan
+ Tested by: EVRMB, EVRMA
+2 RCF25
+ Description:   RCF25 fixed media disk
+ link:      DUa
+ Generic name:  DUan
+ Tested by: EVRMB, EVRMA
+2 RH750
+ Description:   RH750 11/750 Massbus adapter
+ link:      HUB
+ Generic name:  RHn
+ Additional information:
+    BR number [decimal 4-7]<5>
+ Tested by: ECCAA
+2 RH780
+ Description:   RH780 11/780 Massbus adapter
+ link:      HUB
+ Generic name:  RHn
+ Additional information:
+    TR number [decimal 1-15]<8_>
+    BR level [decimal 4-7]<5>
+ Tested by: ESCAA,
+2 RK06
+ Description:   RK06 disk drive
+ link:      DMa
+ Generic name:  DMan
+ Tested by: EVXBA, EVRAA, EVRAC, EVRAD,
+        EVREF, EVREG
+2 RK07
+ Description:   RK07 disk drive
+ link:      DMa
+ Generic name:  DMan
+ Tested by: EVXBA, EVRAA, EVRAC, EVRAD,
+        EVREF, EVREG
+2 RK611
+ Description:   RK06/07 controller
+ link:      DWn
+ Generic name:  DMa
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]<777440>
+    UNIBUS vector [octal 2-776]<210>
+    UNIBUS BR level [decimal 4-7]<5>
+ Tested by: EVREA, EVREB, EVREC, EVRED, EVREE
+2 RL01
+ Description:   RL01 disk drive
+ link:      DLa
+ Generic name:  DLan
+ Tested by: ?
+2 RL02
+ Description:   RL02 disk drive
+ link:      DLa (or DQa)
+ Generic name:  DLan (or DQan)
+ Tested by: EVRAA, EVRAD, EVRFA, EVXBB
+2 RL11
+ Description:   RL01/02 controller
+ link:      DWn
+ Generic name:  DLa
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]<774400>
+    UNIBUS vector [octal 2-776]<160>
+    UNIBUS BR level [decimal 4-7]<5>
+ Tested by: EVRFA
+2 RM03
+ Description:   RM03 disk drive
+ link:      RHn
+ Generic name:  DRan
+ Tested by: EVXBA, EVRAA, EVRAC, EVRAD,
+        EVRDA, EVRDB
+2 RM05
+ Description:   RM05 disk drive
+ link:      RHn
+ Generic name:  DRan
+ Tested by: EVRAA, EVRAC, EVRAD, EVRDA,
+        EVRDB
+2 RM80
+ Description:   RM80 disk drive
+ link:      RHn
+ Generic name:  DRan
+ Tested by: EVRAA, EVRAD, EVRDA, EVRGA,
+        EVRGB
+2 RP04
+ Description:   RP04 disk drive
+ link:      RHn
+ Generic name:  DBan
+ Tested by: EVRAA, EVRAC, EVRAD, EVRBA,
+        EVRCA, EVXBA, EVXBB
+2 RP05
+ Description:   RP05 disk drive
+ link:      RHn
+ Generic name:  DBan
+ Tested by: EVRAA, EVRAC, EVRAD, EVRBA,
+            EVRCA, EVXBA, EVXBB
+2 RP06
+ Description:   RP06 disk drive
+ link:      RHn
+ Generic name:  DBan
+ Tested by: EVRAA, EVRAC, EVRAD, EVRBA,
+            EVRCA, EVXBA, EVXBB
+2 RP07
+ Description:   RP07 disk drive
+ link:      RHn
+ Generic name:  DRan
+ Tested by: EVRAA, EVRAD, EVRHA, EVRHB,
+        EVRHC
+2 RX02
+ Description:   RX02 floppy drive
+ link:      DYa
+ Generic name:  DYan
+ Tested by: EVRAA, EVRAC
+2 RX211
+ Description:   RX01/02 floppy controller
+ link:      DWn
+ Generic name:  DYa
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]<777170>
+    UNIBUS vector [octal 2-776]<264>
+    UNIBUS BR level [decimal 4-7]<5>
+ Tested by: EVRIA
+2 TE16
+ Description:   TE16 magtape drive
+ link:      MTa
+ Generic name:  MTan
+ Tested by: EVMAA, EVMAB, EVMAC, EVXBA,
+            EVXBB
+2 TM03
+ Description:   TM03 Tape subsystem controller/formatter
+ link:      RHn
+ Generic name:  MTa
+ Additional information:
+    drive number [decimal 0-7]
+ Tested by: EVMAC
+2 TM78
+ Description:   TU78 tape subsystem controller
+ link:      RHn
+ Generic name:  MFa
+ Additional information:
+    drive number [decimal 0-7]
+ Tested by: EVMAE
+2 TS11
+ Description:   TS11/TS04 tape subsystem
+ link:      DWn
+ Generic name:  MSa0
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]<772520>
+    UNIBUS vector [octal 2-776]<224>
+    UNIBUS BR level [decimal 4-7]<5>
+ Tested by: EVMAA, EVMAD, EVXBB
+2 TU45
+ Description:   TU45 magtape drive
+ link:      MTa
+ Generic name:  MTan
+ Tested by: EVMAA, EVMAB, EVMAC, EVXBA,
+            EVXBB
+2 TU58
+ Description:   TU58 DECtape II tape drive
+ link:      DWn
+ Generic name:  DDan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]<776500>
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVRAA
+2 TU77
+ Description:   TU77 magtape drive
+ link:      MTa
+ Generic name:  MTan
+ Tested by: EVMAA, EVMAB, EVMAC, EVXBA,
+            EVXBB
+2 TU78
+ Description:   TU78 tape drive
+ link:      MFa
+ Generic name:  MFan
+ Tested by: EVMAA
+2 TU80
+ Description:   TU80 tape subsystem
+ link:      DWn
+ Generic name:  MSa0
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]<772520>
+    UNIBUS vector [octal 2-776]<224>
+    UNIBUS BR level [decimal 4-7]<5>
+ Tested by:
+2 UBE
+ Description:   UBE Unibus exerciser
+ link:      DWn
+ Generic name:  UBan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+ Tested by: ECCBA, EVXBA, ESCCA
+2 UDA50
+ Description:   UNIBUS to SDI controller
+ link:      DWn
+ Generic name:  DUa
+ Additional information:
+    UDAIP (CSR) [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+    Burst Rate [decimal 0-63]
+ Tested by: EVRLA
+2 UNA11
+ Description:   UNIBUS  to NI adapter
+ link:      DWn
+ Generic name:  XEan
+ Additional information:
+    UNIBUS CSR [octal 760000-777776]
+    UNIBUS vector [octal 2-776]
+    UNIBUS BR level [decimal 4-7]
+ Tested by: EVDWA, EVDWB
+2 VT50
+ Description:   VT50 Video terminal
+ link:      TTa
+ Generic name:  TTan
+ Tested by: EVTAA, EVTBA
+2 VT52
+ Description:   VT52 Video terminal
+ link:      TTa
+ Generic name:  TTan
+ Tested by: EVTAA, EVTBA
+2 VT55
+ Description:   VT55 Video terminal
+ link:      TTa
+ Generic name:  TTan
+ Tested by: EVTAA, EVTBA
+2 VT100
+ Description:   VT100 Video terminal
+ link:      TTa
+ Generic name:  TTan
+ Additional information:
+ Tested by: EVTAA, EVTBA
+1 DIRECTORY
+ Type out  a  list  of  files  which  match  the  specified  file
+ specification  (type  HELP  SPECIFY FILE-SPEC for information on
+ file specifications).   The  filename  and/or  filetype  can  be
+ wildcarded  with  the "*" (matching any sequence of characters),
+ or the "%" (matching  any  single  character)  characters.   The
+ other  fields  (device,  directory,  and  version)  can  NOT  be
+ wildcarded.  If filename or filetype  are  not  specified,  they
+ default to "*".
+
+ Format:
+    DIRECTORY [device:][[directory]]filename.filetype;version
+2 Parameters
+ device
+   The device from which to type directory.  The device must
+   have  been  previously  ATTACHed.   In user mode, it must
+   also have been mounted under VMS.
+ directory
+   If the  device  is  directory  formatted,  specifies  the
+   directory  to  list.  The directory name must be enclosed
+   in brackets.  It can include subdirectories separated  by
+   ".".
+
+ The original default is the directory from which which  the
+ Supervisor  was  loaded in standalone (either [SYSMAINT] Or
+ [SYSx.SYSMAINT]  where  "x"  is  a  hex  digit);   or   the
+ [SYSMAINT]  account  on the current SYS$DISK on-line.  Note
+ that as a special case, if SYS$DISK translates to the  form
+ "device:[.SYSx]"  where "x" is a hex digit, the VDS default
+ will be "device:[SYSx.SYSMAINT]".
+
+ Examples:
+    DIRECTORY DMA0:[SYSMAINT]
+    DIRECTORY MTA0:.EXE
+    DIRECTORY [DS]E%SAA
+1 EXAMINE
+ Displays the contents of  the  data  segment  at  the  specified
+ address, in the current radix and data type.  Type "HELP SPECIFY
+ RADIX" for radix information.
+
+ Format:
+    EXAMINE [qualifiers] address
+2 Parameters
+ address
+   Memory address in  current  radix  (physical  address  if
+   memory  management is disabled, virtual address if memory
+   management is enabled).
+
+   Alternatively, specify a  general  register  (type  "HELP
+   SPECIFY   REGISTER"   for  information)  or  an  internal
+   processor register (IPR) (type  "HELP  SPECIFY  IPR"  for
+   information on IPR's).
+2 Qualifiers
+/NEXT=n
+ Type the contents of the next  n  data  segments  from  the
+ specified address.  n is a decimal number.
+/LONGWORD
+ examine a 4-byte data segment
+/WORD
+ examine a 2-byte data segment
+/BYTE
+ examine a 1-byte data segment
+/HEXADECIMAL
+ Type data segment in hexadecimal radix (base 16).
+/DECIMAL
+ Type data segment in decimal radix (base 10).
+/OCTAL
+ Type data segment in octal radix (base 8).
+/ASCII
+ Type data segment as ascii characters
+1 EXIT
+ This command causes the Supervisor to terminate.  In an  on-line
+ mode  (under  VMS),  the  Supervisor will execute a $EXIT system
+ service to return to DCL.  In standalone  mode,  the  Supervisor
+ will  execute  a  HALT instruction;  typing the console CONTINUE
+ command will resume Supervisor execution.
+
+ Format:
+    EXIT
+1 HELP
+ The Supervisor HELP command types out information regarding  the
+ Supervisor  or  a diagnostic program.  After reading a specially
+ formatted file from  the  default  load  device,  it  types  the
+ information  for  the topic(s).  Help is obtained from EVSAA.HLP
+ by default.  If a diagnostic program name is  specified  as  the
+ topic, then help is extracted from the program-name.HLP file.
+
+ The Supervisor HELP facility allows three types of  "wildcards".
+ Type  HELP SPECIFY HELP for more information on both wildcarding
+ and the allowable topic formats.
+
+ Help can be obtained on a particular topic by typing:
+    HELP topic subtopic subsubtopic (etc.)
+1 INITPCS
+ Reloads the 11/750 PCS with the patches contained  in  the  file
+ PCS750.BIN  which  is found on the console TU58.  If the file is
+ not found on the console TU58, the supervisor's onboard copy  of
+ the patches are loaded into the PCS.  Note that the supervisor's
+ onboard copy of patches are loaded into the  PCS  at  supervisor
+ boot time.
+
+ Format:
+    INITPCS
+1 LOAD
+ Load a program image into memory from a device.
+
+ Format:
+    LOAD file-spec
+2 Parameters
+ file-spec
+   File specification for the  file  to  be  loaded.   (Type
+   "HELP    SPECIFY   FILE-SPEC"   for   details   on   file
+   specification format).  The file type defaults to ".EXE".
+1 NEXT
+ Executes the next n single machine instructions starting at  the
+ current   PC.    After   the  instruction(s)  is  executed,  the
+ Supervisor will display the new PC and the next 4 bytes at  that
+ address  (the  next  instruction opcode, plus operand specifiers
+ and/or further opcodes).
+
+ Use NEXT to step through a section of code where  a  problem  is
+ suspected.
+
+ You can not use NEXT unless the program has been  stopped  at  a
+ breakpoint!
+
+ Format:
+    NEXT [n]
+2 Parameters
+ n
+   decimal number of instructions to execute.   Defaults  to
+   1.
+1 QA
+ The Diagnostic Supervisor has the  capability  to  automatically
+ perform  specific  Quality  Assurance  (QA) checks on diagnostic
+ programs.  One should read the "VAX Diagnostic Quality Assurance
+ Checklist" for an explanation of the QA checks.
+
+ Four Supervisor commands have been enhanced to affect  QA.   The
+ RUN  and START commands cause QA to be performed on a diagnostic
+ program.  The SET command allows one to control portions of  the
+ QA  process  by  setting  certain  QA  default values.  The SHOW
+ command allows one to see the current settings of these values.
+
+ In the current implementation, four  QA  checks  are  performed.
+ These  four are the Normal Start check, the Multiple Pass check,
+ the Loop on Test check, and the Run Backwards check.  A QA error
+ results  from  the  diagnostic  program  reporting  an  error or
+ attempting to ask the operator for  input  when  the  no-default
+ flag  has  been  used.   If  no  QA  errors  are  found  in  the
+ aforementioned checks, QA will print an  overall  error  summary
+ table  and  then  abort the diagnostic.  If a QA error is found,
+ information will be printed  that  should  help  the  diagnostic
+ engineer  find  out  why  QA  failed.   Also,  the overall error
+ summary table is printed and the diagnostic is aborted.
+2 RUN
+ The RUN command can be used to  QA  a  diagnostic  program.
+ The /QA qualifier causes the program to undergo a number of
+ QA checks.
+3 Qualifiers
+/QA
+ The /QA qualifier on the RUN command causes the  Supervisor
+ to  automatically  QA  the  diagnostic  program.   QA  will
+ execute until either a QA error is found or until  all  the
+ QA checks have finished.
+
+ The /PASSES, /TEST, and the /SUBTEST qualifiers are ignored
+ if  the  /QA qualifier is used.  The /SECTION qualifier may
+ be used to run QA on a particular section.
+2 SET
+ The SET command allows one to control, to a certain extent,
+ the  QA process.  There are five QA "flags" that can be set
+ to various values.  Only two of these flags have any effect
+ in the current implementation.  The QAERRORPRINTS flag, the
+ QASUBTESTLOOPS flag, and the  QACKLOOPLOOPS  flag  are  not
+ currently  used  when  QAing a diagnostic, although the SET
+ command will allow one to set these flags.
+
+ Format:
+    SET option [dec-value]
+3 QACKLOOPLOOPS
+ This QA flag controls the number of times that QA will
+ cause  a $DS_CKLOOP Supervisor macro to be executed in
+ the QA Error checks.
+
+ Format:
+    SET QACKLOOPLOOPS dec-value
+4 Parameters
+ dec-value
+   The dec-value must be in the range of  2  to  32767.
+   The  dec-value  must  be specified.  The default for
+   the  QACKLOOPLOOPS  flag  is  2.   That   is,   each
+   $DS_CKLOOP  macro  in the diagnostic program will be
+   executed dec-value times.
+3 QADEFAULTS
+ This QA flag allows one to set all  the  QA  flags  to
+ their  default values.  The default values for each of
+ the QA flags are as follows:
+
+        QACKLOOPLOOPS:    2
+        QAERRORPRINTS:   10
+        QAMULTIPLEPASS:  10
+        QASUBTESTLOOPS: 100
+        QATESTLOOPS:    100
+
+ Format:
+    SET QACKLOOPLOOPS
+3 QAERRORPRINTS
+ This QA flag controls the number of times that QA will
+ print  a  specific  diagnostic error message in the QA
+ Error checks.
+
+ Format:
+    SET QAERRORPRINTS dec-value
+4 Parameters
+ dec-value
+   The dec-value must be in the range of  2  to  32767.
+   The  dec-value  must  be specified.  The default for
+   the  QAERRORPRINTS  flag  is  2.   That   is,   each
+   $DS_ERRxxxx  macro in the diagnostic program will be
+   executed dec-value times (where xxxx is  DEV,  HARD,
+   SOFT, or SYS).
+3 QAMULTIPLEPASS
+ This QA flag controls the number of  passes  that  the
+ diagnostic will execute in the QA Multiple Pass check.
+
+ Format:
+    SET QAMULTIPLEPASS dec-value
+4 Parameters
+ dec-value
+   The dec-value must be in the range of  1  to  32767.
+   The  dec-value  must  be specified.  The default for
+   the QAMULTIPLEPASS flag is  10.   That  is,  in  the
+   Multiple Pass check, the diagnostic will be executed
+   as if dec-value PASSES had been requested.
+3 QASUBTESTLOOPS
+ This QA flag controls the number of  times  that  each
+ subtest is executed in the QA Loop on Subtest check.
+
+ Format:
+    SET QASUBTESTLOOPS dec-value
+4 Parameters
+ dec-value
+   The dec-value must be in the range of  1  to  32767.
+   The  dec-value  must  be specified.  The default for
+   the QASUBTESTLOOPS  flag  is  100.   That  is,  each
+   subtest  in  the diagnostic program will be executed
+   dec-value times.
+3 QATESTLOOPS
+ This QA flag controls the number of  times  that  each
+ test  is executed in the QA Loop on Test check in this
+ check.
+
+ Format:
+    SET QATESTLOOPS dec-value
+4 Parameters
+ dec-value
+   The dec-value must be in the range of  1  to  32767.
+   The  dec-value  must  be specified.  The default for
+   the QATESTLOOPS flag is 100.  That is, each test  in
+   the  diagnostic  program  will be executed dec-value
+   times.
+2 SHOW
+ The SHOW command prints the  current  settings  of  the  QA
+ flags.   There  are  five  QA  "flags"  that  can be set to
+ various values.  Only two of these flags have any effect in
+ the  current  implementation.   The QAERRORPRINTS flag, the
+ QASUBTESTLOOPS flag, and the  QACKLOOPLOOPS  flag  are  not
+ currently  used  when QAing a diagnostic, although the SHOW
+ command will allow one to see the current settings of these
+ flags.
+
+ Format:
+    SHOW option
+3 QACKLOOPLOOPS
+ This command will print the  current  setting  of  the
+ QACKLOOPLOOPS  QA  flag.   The  value  of  the flag is
+ printed in decimal radix.
+
+ Format:
+    SHOW QACKLOOPLOOPS
+3 QADEFAULTS
+ This command will print the default  settings  of  all
+ the  QA  flags.   The  values  are  printed in decimal
+ radix.  Note that  the  values  printed  are  not  the
+ current settings of the flags.
+
+ Format:
+    SHOW QADEFAULTS
+3 QAERRORPRINTS
+ This command will print the  current  setting  of  the
+ QAERRORPRINTS  QA  flag.   The  value  of  the flag is
+ printed in decimal radix.
+
+ Format:
+    SHOW QAERRORPRINTS
+3 QAMULTIPLEPASS
+ This command will print the  current  setting  of  the
+ QAMULTIPLEPASS  QA  flag.   The  value  of the flag is
+ printed in decimal radix.
+
+ Format:
+    SHOW QAMULTIPLEPASS
+3 QASUBTESTLOOPS
+ This command will print the  current  setting  of  the
+ QASUBTESTLOOPS  QA  flag.   The  value  of the flag is
+ printed in decimal radix.
+
+ Format:
+    SHOW QASUBTESTLOOPS
+3 QATESTLOOPS
+ This command will print the  current  setting  of  the
+ QATESTLOOPS QA flag.  The value of the flag is printed
+ in decimal radix.
+
+ Format:
+    SHOW QATESTLOOPS
+2 START
+ The START command can be used to QA a  diagnostic  program.
+ The /QA qualifier causes the program to undergo a number of
+ QA checks.
+3 Qualifiers
+/QA
+ The  /QA  qualifier  on  the  START  command   causes   the
+ Supervisor   to   automatically  QA  the  currently  loaded
+ diagnostic program.  QA will  execute  until  either  a  QA
+ error is found or until all the QA checks have finished.
+
+ The /PASSES, /TEST, and the /SUBTEST qualifiers are ignored
+ if  the  /QA qualifier is used.  The /SECTION qualifier may
+ be used to run QA on a particular section.
+1 RUN
+ Load a program  image  into  memory  from  a  device  and  cause
+ execution  of  the  image,  by  passing  control  first  to  the
+ program's initialization code and then sequentially to each test
+ within the selected section.
+
+ Format:
+    RUN file-spec [qualifiers]
+2 Parameters
+ file-spec
+   file specification  for  file  to  be  run.   Type  "HELP
+   SPECIFY  FILE-SPEC"  for file specification details.  The
+   file type defaults to ".EXE".
+2 Qualifiers
+/SECTION=section-name
+ Select a program section to be executed.  This  must  be  a
+ section   defined   by  the  program  (Type  "HELP  program
+ SECTIONS" for information on the sections implemented by  a
+ particular program).  If the SECTION qualifier is not used,
+ the section named DEFAULT, which must  be  present  in  all
+ programs,  is  executed.   Only  those tests defined by the
+ programmer to be within the specified section are executed.
+
+ Examples:
+    RUN EVRAA/SECTION=SEEK
+    RUN EVXBA /SEC:DEFAULT
+/SUBTEST=num
+/TEST=first[=last]
+ The value first defines a test number, within the  selected
+ section,  at  which  to  begin  program  testing.  No lower
+ numbered tests will be execute.
+
+ If the value last is also  used,  it  defines  the  highest
+ number test to execute.
+
+ Alternatively,  the  value  first  may   be   used   alone,
+ specifying  only  the  starting  test  number.   If so, the
+ /SUBTEST=num qualifier can be used (note that the  /SUBTEST
+ qualifier otherwise is meaningless and should not be used).
+ When this form is used, execution will begin at test first.
+ If  the /SUBTEST qualifier was used, execution will proceed
+ until subtest num is  encountered.   If  the  /PASSES=count
+ qualifier is also used, the program will repeatedly loop on
+ that one subtest until termination, once  the  subtest  has
+ been  reached once.  If the /SUBTEST qualifier is not used,
+ testing continues to the last test of the section.
+
+ If the /TEST qualifier is not used, first  defaults  to  1,
+ and  last  defaults  to  the  highest  test  number  in the
+ selected section.
+
+ The values first, last, and num are decimal numbers.
+/PASSES=count
+ After  program  execution,  as  defined  by  use  of  other
+ qualifiers,  has  been  completed, count is decremented and
+ execution continues;  the program  will  loop  through  the
+ specified cycle count times.
+
+ As a special case, if the count is zero, the  program  will
+ loop indefinitely.
+
+ If the /PASSES qualifier is not used, count defaults  to  1
+ unless the SEARCH flag is set, in which case count defaults
+ to  infinity.   Type  "HELP  SPECIFY  FLAGS   SEARCH"   for
+ information on the SEARCH feature.
+/QA
+ Use of this qualifier  causes  the  diagnostic  program  to
+ undergo  a  number of Quality Assurance checks.  Type 'HELP
+ QA RUN /QA' for more information.
+1 SCRIPT
+ A script is an ascii file of  Supervisor  and/or  program  input
+ lines,  each  line  prefixed  by the exact prompt which it is to
+ answer (e.g., a command line to the Supervisor must  begin  with
+ the  string "DS> ").  These lines will be interpreted and echoed
+ at the console.  When a script file is completed, "@ <EOF>" will
+ be  typed  to signify that control has passed out of the script.
+ A script may invoke another script, and will continue  when  the
+ script  it  invoked  has  completed.  When all scripts have been
+ completed, control returns to  the  console.   If  a  script  is
+ interrupted  by  typing  ^C, any active scripts are flushed, and
+ can not be continued.   Scripts  are  loaded  into  memory  when
+ invoked;   therefore  the  media  need not remain on-line during
+ execution of the script.
+
+    Note that this is distinct from the use of a VMS script  file
+ which  must  not  include  prompt  strings,  which  can  only be
+ utilized in user mode, does require an on-line media,  and  will
+ cause  termination of the Supervisor when it completes.  Also, a
+ VMS command file must cause execution of the Supervisor, and can
+ not be invoked from within the Supervisor.
+
+ Format:
+    @file-spec
+2 Parameters
+ file-spec
+   The  filename  to  be  loaded  as  a  script.   The  file
+   extension defaults to ".COM".
+1 SELECT
+ Specify  that  a  device  may  be  accessed  for  testing  by  a
+ diagnostic  program.  A device must be ATTACHed before it can be
+ selected.  When  a  device  is  ATTACHed  it  is  deselected  by
+ default.   In  user  mode,  the  device will be allocated by the
+ Supervisor if the device Ptable descriptor so specifies.
+
+ Format:
+    SELECT [Qualifiers] device-list
+2 Parameters
+ device-list
+   A list of generic device names to be selected,  separated
+   by commas.  Or alternatively, the keyword "ALL" to select
+   all devices.
+2 Qualifiers
+/ADAPTER=name
+ Limit the SELECT command to only affect devices  which  are
+ attached  to  the  device  with  generic  name 'name'.  For
+ example, the command 'SELECT/ADAPTER=HUB ALL'  will  select
+ only  devices  attached  directly  to HUB (e.g., DW0, KA0).
+ This does NOT include  the  link  device  itself,  nor  any
+ devices attached to the selected devices.
+1 SET
+ Alters characteristics  of  the  Supervisor  and/or  program  by
+ setting flags, default values, breakpoints, etc.
+
+ Format:
+    SET option
+2 BASE
+ Set a base value which will be added to all  address  input
+ to  the  EXAMINE,  DEPOSIT  and  SET  or  CLEAR  BREAKPOINT
+ commands.  This is useful for referencing location  offsets
+ within a routine, loadable I/O driver, etc.
+
+ Format:
+    SET BASE offset
+3 Parameters
+ offset
+   An address value in the current radix by which subsequent
+   address-type input is modified.  The initial offset is 0.
+   Type "SET BASE 0" to remove an offset once set.
+2 BREAKPOINT
+ Set  a  breakpoint  at  the  specified  address.    Program
+ execution   will   be   interrupted  immediately  prior  to
+ execution of the instruction at that address,  and  control
+ passed to the Supervisor command wait state.
+
+ Format:
+    SET BREAKPOINT address
+3 Parameters
+ address
+   An address value in the current radix at which to set the
+   breakpoint.   The  address  is  affected  by the SET BASE
+   command.
+2 DEFAULT
+ Alters the default data type and radix for the EXAMINE  and
+ DEPOSIT commands.
+
+ Format:
+    SET DEFAULT arg-list
+3 Parameters
+ arg-list
+   A radix and/or data type specifier.  If only one is used,
+   the other is not affected.  If both are used, they may be
+   in either order and must be  separated  by  commas.   The
+   initial default is HEX and LONG.
+
+    Radix:      HEXADECIMAL, DECIMAL, OCTAL
+    Data type:  BYTE, WORD, LONG
+
+   Example:
+    SET DEFAULT DECIMAL, BYTE
+2 ENFORCE
+ Enables  device  name  enforcement.   It  is  the   default
+ condition  when  VDS starts, EXCEPT when running under APT.
+ WARNING% - Some old scripts or diagnostic programs may  not
+ function with ENFORCE set.
+
+ Format:
+    SET ENFORCE
+
+ Example:
+    DS>SET ENFORCE
+    DS>ATTACH RP06 HUB DB0
+    ??  Error in controller part of name, format  should  be
+ "DBan"
+    Device name?
+    ^C
+    DS>CLEAR ENFORCE
+    DS>ATTACH RP06 HUB DB0
+    DS>SHOW DEVICE
+    _DB0    RP06 HUB 00000000
+2 EVENT
+ Set event flag(s).  Some programs utilize  event  flags  as
+ control flags for non-standard options.
+
+ Format:
+    SET EVENT [FLAGS] arg-list
+3 Parameters
+ arg-list
+   A list of event flag numbers, from decimal 1 to 23, to be
+   set;  separate them by commas.  Or, the keyword "ALL" may
+   be used to set all event flags.
+
+   Examples:
+    SET EVENT 1,20
+    SET EVENT FLAGS 3
+    SET EVENT ALL
+2 FLAGS
+ Causes Supervisor control flags to  be  set.   The  "FLAGS"
+ keyword is optional.
+
+ Format:
+    SET [FLAGS] arg-list
+3 Parameters
+ arg-list
+   A list of flag names to  be  set,  separated  by  commas.
+   Type  "HELP  SPECIFY FLAGS" for information on specifying
+   flag keywords, and their significance.
+2 LOAD
+ Alter the default load device and/or directory.
+
+ Format:
+    SET LOAD [device:][[directory]]
+3 Parameters
+ device
+   The device from which files are to be loaded.  The device
+   must have been previously ATTACHed.
+ directory
+   If the  device  is  directory  formatted,  specifies  the
+   directory to load files from.  The directory name must be
+   enclosed in brackets.
+
+ The original default is directory [SYSMAINT] on the  device
+ from which the Supervisor was loaded.
+
+ Example:
+    SET LOAD DMA0:[SYSMAINT]
+2 MM
+ Turn processor memory management on or off.
+
+ Format:
+    SET MM state
+
+ Examples:
+    SET MM ON
+    SET MM OFF
+3 Parameters
+ state
+   Specify whether memory management is to be turned  ON  or
+   OFF
+2 MEMORY
+ Change the amount of total physical memory available to the
+ supervisor  and  diagnostic programs.  The command will not
+ be accepted in user mode.
+
+ Format:
+    SET MEMORY n
+3 Parameters
+ n
+   The unit of measurement for "n" is pages of memory.   The
+   value  of  "n" must be greater than or equal to zero, but
+   less than the last value specified  for  total  available
+   physical  memory.  Total available physical memory may be
+   reset to the actual available physical memory by using  a
+   value  of  zero for "n".  A value greater than the actual
+   available physical memory will be accepted but not used.
+2 PAGE
+ Set the terminal page size.  When the specified  number  of
+ lines  have  been  printed,  output is stopped and the user
+ must respond to a prompt in order to continue output.
+
+ Format:
+    SET PAGE n
+3 Parameters
+ n
+   The number of lines which will be printed on the terminal
+   before  the user is prompted for more.  The default value
+   is zero, which indicates that no paging will be done.
+2 QACKLOOPLOOPS
+ Set  the  QACKLOOPLOOPS  QA  flag.   Type  'HELP   QA   SET
+ QACKLOOPLOOPS' for more information.
+
+ Format:
+    SET QACKLOOPLOOPS dec-value
+2 QADEFAULTS
+ Set the QA flags to their default values.   Type  'HELP  QA
+ SET QADEFAULTS' for more information.
+
+ Format:
+    SET QADEFAULTS
+2 QAERRORPRINTS
+ Set  the  QAERRORPRINTS  QA  flag.   Type  'HELP   QA   SET
+ QAERRORPRINTS' for more information.
+
+ Format:
+    SET QAERRORPRINTS dec-value
+2 QAMULTIPLEPASS
+ Set  the  QAMULTIPLEPASS  QA  flag.   Type  'HELP  QA   SET
+ QAMULTIPLEPASS' for more information.
+
+ Format:
+    SET QAMULTIPLEPASS dec-value
+2 QASUBTESTLOOPS
+ Set  the  QASUBTESTLOOPS  QA  flag.   Type  'HELP  QA   SET
+ QASUBTESTLOOPS' for more information.
+
+ Format:
+    SET QASUBTESTLOOPS dec-value
+2 QATESTLOOPS
+ Set  the  QATESTLOOPS  QA  flag.    Type   'HELP   QA   SET
+ QATESTLOOPS' for more information.
+
+ Format:
+    SET QATESTLOOPS dec-value
+2 WIDTH
+ Set the terminal width.  When the print  head  (or  cursor)
+ reaches  the  column  number  set,  a  carriage  return and
+ linefeed will be forced.
+
+ Format:
+    SET WIDTH n
+3 Parameters
+ n
+   A number from 1 to 132 inclusive.  The  default  terminal
+   width is 80.
+1 SHOW
+ Examine current value of flags, breakpoints, etc.
+
+ Format:
+    SHOW option
+2 BASE
+ Display the current BASE value (in hex).
+
+ Format:
+    SHOW BASE
+2 BREAKPOINTS
+ All breakpoints currently set will be displayed.
+
+ Format:
+    SHOW BREAKPOINTS
+2 DEFAULT
+ Show the current default values for radix and data type (as
+ in the SET DEFAULT command).
+
+ Format:
+    SHOW DEFAULT
+2 DEVICE
+ List characteristics of  ATTACH-ed  devices.   The  display
+ format is:
+
+    generic device-type link HUB-addr device-specific
+
+ Example output:
+
+ _TTA   DZ11    _DW0 6013E050 CSR=00000760120(O) -
+                 VECTOR=00000000000(O) BR=4.
+
+ Format:
+    SHOW [Qualifiers] DEVICE [Qualifiers] [arg-list]
+3 Parameters
+ arg-list
+   List of device generic names to be  displayed,  separated
+   by  commas.   If no parameters are given, all devices are
+   displayed.
+
+   Examples:
+    SHOW DEVICE
+    SHOW DEV DMA0, LPA0:, DLA0
+3 Qualifiers
+/ADAPTER=name
+ Limit the scope of the SHOW DEVICE command to devices which
+ are  attached  to  the  device  'name'.   If no arg-list is
+ given, all devices attached to the named device are listed;
+ if  arg-list  is given, the named devices will be displayed
+ only if they are attached to the specified  adapter.   This
+ allows  devices  with  identical  names,  but  on different
+ adapters, to co-exist (e.g., multiple  DECnet  paths  to  a
+ given node).
+/BRIEF
+ Type  only  the  name  of  each  device,  rather  than  all
+ parameters.
+2 EVENT
+ Show state of event flags.  Those flags currently  set  are
+ listed.
+
+ Format:
+    SHOW EVENT [FLAGS]
+2 FLAGS
+ Show current state of control flags.   Both  currently  set
+ and  currently  clear  flags  are  displayed.   Type  "HELP
+ SPECIFY FLAGS" for description of control flags.
+
+ Format:
+    SHOW FLAGS
+2 LOAD
+ Display current default load device and directory.
+
+ Format:
+    SHOW LOAD
+2 MEMORY
+ Show current memory map.  Shows the  addresses  of  various
+ important   sections   of  the  Diagnostic  Supervisor  and
+ diagnostic, as well as physical memory size.
+
+ Format:
+    SHOW MEMORY [/Qualifiers]
+3 Qualifiers
+/ALL
+ Combines the effects of /MAP, /DATA_STRUCTURE, and /BUFFER
+/BUFFER
+ Shows  the  size  and  location  of  memory  available  for
+ diagnostic  buffers  (through  $DS_GETBUF  service).   Only
+ meaningfull if a diagnostic is  loaded.   In  on-line  mode
+ (under  VMS),  only  the  buffer space below the Diagnostic
+ Supervisor is shown.
+/DATA_STRUCTURE
+ This qualifier causes listing of internal data  structures,
+ including  SCB,  Page  tables,  etc.   Most of this data is
+ shown only in standalone mode.
+/MAP
+ This qualifier is the default if no qualifiers are present.
+ It  causes the Diagnostic Supervisor to list only the major
+ components of  the  diagnostic  system,  and  the  physical
+ memory size if system is standalone.
+2 MM
+ Show current state of memory management (on or off).
+
+ Format:
+    SHOW MM
+2 PAGE
+ Show current terminal page size.
+
+ Format:
+    SHOW PAGE
+2 QACKLOOPLOOPS
+ Show the current setting  of  the  QACKLOOPLOOPS  QA  flag.
+ Type 'HELP QA SHOW QACKLOOPLOOPS' for more information.
+
+ Format:
+    SHOW QACKLOOPLOOPS
+2 QADEFAULTS
+ Show the default  settings  (not  necessarily  the  current
+ settings)  of the QA flags.  Type 'HELP QA SHOW QADEFAULTS'
+ for more information.
+
+ Format:
+    SHOW QADEFAULTS
+2 QAERRORPRINTS
+ Show the current setting  of  the  QAERRORPRINTS  QA  flag.
+ Type 'HELP QA SHOW QAERRORPRINTS' for more information.
+
+ Format:
+    SHOW QAERRORPRINTS
+2 QAMULTIPLEPASS
+ Show the current setting of  the  QAMULTIPLEPASS  QA  flag.
+ Type 'HELP QA SHOW QAMULTIPLEPASS' for more information.
+
+ Format:
+    SHOW QAMULTIPLEPASS
+2 QASUBTESTLOOPS
+ Show the current setting of  the  QASUBTESTLOOPS  QA  flag.
+ Type 'HELP QA SHOW QASUBTESTLOOPS' for more information.
+
+ Format:
+    SHOW QASUBTESTLOOPS
+2 QATESTLOOPS
+ Show the current setting of the QATESTLOOPS QA flag.   Type
+ 'HELP QA SHOW QATESTLOOPS' for more information.
+
+ Format:
+    SHOW QATESTLOOPS
+2 SECTIONS
+ Display the section names supported by the currently loaded
+ diagnostic.  If no diagnostic is loaded, a message is typed
+ to that effect.
+
+ Format:
+    SHOW SECTIONS
+2 SELECTED
+ List the characteristics of all currently selected devices.
+ The display format is:
+
+    generic device-type link HUB-adr device-specific
+
+ Format:
+    SHOW [Qualifiers] SELECTED [Qualifiers]
+3 Qualifiers
+/BRIEF
+ Type  only  the  name  of  each  device,  rather  than  all
+ parameters.
+2 STATUS
+ Show the status of the running diagnostic (current section,
+ pass,  test,  subtest,  time,  error count, and PC).  If no
+ diagnostic is running, a message  will  be  typed  to  that
+ effect.   This  command  may  be  used when a diagnostic is
+ Control-C'd to check test progression;  the diagnostic  may
+ then be CONTINUE'd.
+
+ Format:
+    SHOW STATUS
+2 SUPPORT
+ List the device types supported  by  the  currently  loaded
+ diagnostic.   If no diagnostic is loaded, a message will be
+ typed to that effect.
+
+ Format:
+    SHOW SUPPORT
+2 WIDTH
+ Show current terminal width setting.
+
+ Format:
+    SHOW WIDTH
+1 Specify
+2 Device
+ A device name has the general format "GGan", where "GG"  is
+ a  two  alphabetic  character string generally derived from
+ the hardware designation.  "a" is an  alphabetic  character
+ denoting the controller number, and "n" is a decimal number
+ from 0 to 255, specifying  which  unit  number  the  device
+ responds  to  on  it's  controller.   "a" and/or "n" may be
+ used, when appropriate for the device.   Devices  which  do
+ not  have  controllers  as  such  will use "n", for devices
+ attached directly to the main bus (e.g., RH0, MS0, KA0), or
+ "an"  where  "a"  is  arbitrary,  for devices at subsidiary
+ levels (e.g., XMA0).
+2 File-Spec
+ File specifications have the format:
+
+    device:[directory]filename.filetype;version
+
+ The punctuation marks and brackets are required to separate
+ the  fields.   All  but  filename  may  be omitted to allow
+ default values.
+
+     field       contents        syntax          default
+     -----       --------------  -------         -------
+     device      device name     GGan:           (last SET LOAD)
+     directory   directory name  [directory]     (last SET LOAD)
+     filename    file name       filename        none
+     filetype    file type       .type           command-dependent
+     version     file version    ;n              highest numbered
+
+
+                            NOTE
+
+     The directory field may include subdirectories,  in
+     the form [directory.subdirectory.subdirectory...].
+
+
+2 Flags
+ Supervisor flags are represented by keywords.  For the  SET
+ and  CLEAR FLAGS commands, any keywords may be used, or the
+ additional keyword "ALL".  "ALL"  will  set  or  clear  all
+ control  flags  except  SEARCH  and  BINARY,  which must be
+ controlled individually.
+3 BELL
+ Bell  on  error.   When  set,  this  flag  will  cause  the
+ Supervisor  to  transmit  a bell character (ASCII 7) to the
+ console whenever the program detects an error.
+3 BINARY
+ When this flag is set,  each  message  (including  prompts)
+ output  by  the  Supervisor will begin with a one byte type
+ code field.  This type code will specify the class  of  the
+ message  (e.g.,  ERRHARD, ERRSYS, command error, etc.).  It
+ should not be set by human operators, and is intended  only
+ for  use  by programs such as EVXBB which interact directly
+ with the Supervisor.
+3 HALT
+ Halt on error.  When a program detects an error and if this
+ flag is set, the Supervisor enters command wait state after
+ all error messages associated with the failure  (and  which
+ are  enabled)  have  been  output.   The  operator may then
+ CONTINUE, ABORT, or START.  This flag has  precedence  over
+ LOOP.
+3 IE1
+ Inhibit error messages at level 1.   When  set,  this  flag
+ supresses  all error messages except those specially forced
+ by the program or by the Supervisor via a $DS_PRINTF call.
+3 IE2
+ Inhibit error messages at level 2.   When  set,  this  flag
+ supresses  basic  and  extended  information concerning the
+ failure.  Only the first 3 lines (header)  of  the  message
+ are typed for each failure.
+3 IE3
+ Inhibit error messages at level 3.   When  set,  this  flag
+ supresses extended information concerning the failure.  The
+ header and basic information messages are  typed  for  each
+ failure.
+3 IES
+ Inhibit summary report.   When  set,  this  flag  supresses
+ statistical report messages.
+3 LOOP
+ Loop on error.  When set, this flag causes the  program  to
+ enter a predetermined scope loop on a test or subtest which
+ detects a failure.  Set  the  IE1  flag  to  inhibit  error
+ messages, thus speeding up the loop.  Looping will continue
+ until the operator returns control to the Supervisor with a
+ ^C command.  The operator may then CONTINUE with or without
+ first clearing the LOOP flag;  or ABORT the program.
+3 OPERATOR
+ Operator present.  When set, this flag informs the  program
+ that  tests  requiring human intervention can be performed.
+ When this flag is clear, programs will avoid such tests.
+3 PROMPT
+ Display long dialogue.  When set, this  flag  indicates  to
+ the  Supervisor  that  the operator wants to see the limits
+ and defaults for all questions asked by the program.
+3 QUICK
+ Quick verify.  When set, this flag indicates to the program
+ that  the  operator wants a quick verify mode of operation.
+ The  interpretation  of  this  flag  is  dependent  on  the
+ program.    Type  "HELP  program  QUICK"  for  a  program's
+ interpretation of QUICK.
+3 SEARCH
+ Enable error search  mode.   When  set,  this  flag  causes
+ automatic  test  limit  modification.   When  an  error  is
+ reported by a test, the upper test  limit  is  set  to  the
+ previous  test.  With an "infinite" pass count (the default
+ when the SEARCH  flag  is  set),  the  testing  cycle  will
+ eventually be reduced to include only those lowest numbered
+ tests which do not fail;  providing device exerciser at the
+ highest level of functionality.
+3 TRACE
+ Report the execution of each test.   When  set,  this  flag
+ causes the Supervisor to print the number and title of each
+ test before dispatching control to the test.
+3 VERIFY
+ When this flag is set, commands and prompts  within  SCRIPT
+ files  will  be echoed to the output console or file.  This
+ is analogous to the VMS 'SET  VERIFY'  and  'SET  NOVERIFY'
+ commands.   It  does  not  affect  command  read from a VMS
+ script,  only  commands  within  a  file  passed   to   the
+ Supervisor  via  an  '@  filespec'  command.   This flag is
+ cleared by default.
+2 Help
+ Help can be obtained on a particular topic by typing:
+
+    HELP topic subtopic subsubtopic (etc.)
+
+ For information on specifying topics  and  subtopics,  type
+ HELP SPECIFY HELP TOPICS_AND_SUBTOPICS.
+
+ The Supervisor  HELP  command  supports  "wildcards".   The
+ wildcards supported by the Supervisor include "*", "%", and
+ "...".   Type  HELP  SPECIFY  HELP   WILDCARDS   for   more
+ information.
+
+ Type  HELP  SPECIFY  ABBREVIATIONS  for   help   on   using
+ abbreviations for the topics and subtopics.
+3 Abbreviations
+ Abbreviations (which do not include wildcarded  characters)
+ result  in  all  matches being displayed.  For example, the
+ following two commands are equivalent:
+
+    HELP S
+    HELP S*
+
+ For information on one specific topic (subtopic), the topic
+ (subtopic)  may  be  abbreviated  to  the  least  number of
+ characters that distinguishes that  topic  (subtopic)  from
+ another.
+3 Examples
+
+ Below are some examples of Supervisor HELP commands:
+
+    HELP
+    HELP ATTACH *
+    HELP EVRAA DEVICE ...
+    HELP EXA
+    HELP DEVICE LP1%
+    HELP S*
+    HELP SPECIFY ...
+    HELP SPECIFY HELP EXAMPLES
+3 Topics_And_Subtopics
+ A topic can have the following formats:
+ 1)  An alphanumeric string (e.g., a command name, option)
+ 2)  An alphanumeric string preceded by a  "/"  (interpreted
+     as a qualifier)
+ 3)  As in 1) or 2), with embedded "*" or "%" to  specify  a
+     wildcarded topic
+ 4)  Any  of  the  above  followed  by  "...",  causing  all
+     remaining topic levels to act as if they were "*".
+ 5)  The first topic may be a diagnostic  program  name,  in
+     which  case  all  following  topic  keys  are  promoted
+     (subtopic  becomes  topic,  etc.)  and  help  text   is
+     extracted from the appropriate diagnostic help file.
+
+3 Wildcards
+ A topic or subtopic  can  contain  the  following  embedded
+ wildcard characters:
+  o  "*" matches anything
+  o  "A*" matches all words beginning with "A"
+  o  "*A" matches all words ending with "A"
+  o  "A*A" matches all words beginning and ending with "A"
+  o  "*A*" matches all words containing an "A"
+  o  "A%C" matches any 3-character word beginning  with  "A"
+     and ending with "C"
+
+
+ In addition, a topic (subtopic) followed  by  "..."  causes
+ all  remaining  topic  (subtopic)  levels to act as if they
+ were "*".
+2 IPR
+ Internal Processor Registers (IPRs) can only be accessed in
+ standalone  mode,  as  use of privileged instructions (MFPR
+ and MTPR) is required.  They are specified by the character
+ "P"  suffixed  by a number in the current radix.  Note as a
+ special case that IPR C (hex) cannot be  accessed  by  "PC"
+ which  would  refer  to  general  register  15,  but may be
+ accessed as "P12" decimal, or as "P0C" or "P%XC"  to  force
+ hexadecimal  interpretation  (Type "HELP SPECIFY RADIX" for
+ more radix control information).
+3 Mnemonics-definitions
+ Register name           mnemonic dec hex access processor
+ ----------------------  -------- --- --- ------ ------------
+ Kernel stack pointer      KSP     0   0   R/W   all
+ Executive stack pointer   ESP     1   1   R/W   all
+ Supervisor stack pointer  SSP     2   2   R/W   all
+ User stack pointer        USP     3   3   R/W   all
+ Interrupt stack pointer   ISP     4   4   R/W   all
+ P0 Base Register          P0BR    8   8   R/W   all
+ P0 Length Register        P0LR    9   9   R/W   all
+ P1 Base Register          P1BR   10   A   R/W   all
+ P1 Length Register        P1LR   11   B   R/W   all
+ System Base Register      SBR    12   C   R/W   all
+ System Limit Register     SLR    13   D   R/W   all
+ Process Control Blk Base  PCBB   16  10   R/W   all
+ System Control Blk Base   SCBB   17  11   R/W   all
+ Interrupt Priority Level  IPL    18  12   R/W   all
+ AST Level                 ASTLVL 19  13   R/W   all
+ Sftware Interrupt Request SIRR   20  14    W    all
+ Sftware Interrupt Summary SISR   21  15   R/W   all
+ Machine Check Status      MCSR   23  17    R    750
+ Interval Clock Control    ICCS   24  18   R/W   all
+ Next Interval Count       NICR   25  19    W    all
+ Interval Count            ICR    26  1A    R    all
+ Time Of Year              TODR   27  1B   R/W   all (option)
+ Console Receiver C/S      RXCS   32  20   R/W   all
+ Console Receiver D/B      RXDB   33  21    R    all
+ Console Transmit C/S      TXCS   34  22   R/W   all
+ Console Transmit D/B      TXDB   35  23    W    all
+ Trnsltn Buffr Grp Disable TBDR   36  24   R/W   750
+ Cache Disable             CADR   37  25   R/W   750
+ Machine Chk Error Summary MCESR  38  26   R/W   750
+ Cache Error               CAER   39  27   R/W   750
+ Accelerator C/S           ACCS   40  28   R/W   780
+ Accelerator Maintenance   ACCR   41  29   R/W   780
+ WCS address               WCSA   44  2C   R/W   780
+ WCS data                  WCSD   45  2D   R/W   780
+ SBI Fault/Status          SBIFS  48  30   R/W   780
+ SBI Silo                  SBIS   49  31    R    780
+ SBI Silo Comparator       SBISC  50  32   R/W   780
+ SBI Maintenance           SBIMT  51  33   R/W   780
+ SBI Error Register        SBIER  52  34   R/W   780
+ SBI Timeout Address       SBITA  53  35    R    780
+ SBI Quadword Clear        SBIQC  54  36    W    780
+ Memory Management Enable  MAPEN  56  38   R/W   all
+ Trans. Buf. Inv. All      TBIA   57  39    W    all
+ Trans. Buf. Inv. Single   TBIS   58  3A    W    all
+ Translation Buffer        TB     59  3B   R/W   750
+ Micro Program Breakpoint  MBRK   60  3C   R/W   780
+ Performance Monitor Enb.  PMR    61  3D   R/W   all
+ System Identification     SID    62  3E    R    all
+2 Radix
+ Most numeric values and  addresses  may  be  input  in  any
+ convenient  radix,  except  where  specified  (e.g., UNIBUS
+ device CSR and vector addresses are always octal, TR and BR
+ numbers are always decimal).
+
+ For the EXAMINE and  DEPOSIT  commands,  permanent  default
+ radix  may  be  set  with  the  SET DEFAULT command, or the
+ default for a single command may be set using qualifiers.
+
+ More generally, a radix may be  specified  by  prefixing  a
+ number with a radix specifier:
+    %Xn causes n to be interpreted as hexadecimal
+    %Dn causes n to be interpreted as decimal
+    %On causes n to be interpreted as octal
+
+ Examples:
+    %O100   = octal 100
+    %X4F    = hexadecimal 4F
+    %D80    = decimal 80
+2 Register
+ General registers are specified by  appending  the  decimal
+ register  number  (0  to 15) to the character "R".  Or, R15
+ may be specified as "PC", R14 as "SP", R13 as "FP", and R12
+ as "AP".
+1 START
+ Execute an image previously loaded either by the LOAD command or
+ by a previous RUN command.  Execute the image by passing control
+ first to the program's initialization code and then sequentially
+ to each test within the selected section.
+
+ Format:
+    START [qualifiers]
+2 Qualifiers
+/SECTION=section-name
+ Select a program section to be executed.  This  must  be  a
+ section   defined   by  the  program  (Type  "HELP  program
+ SECTIONS" for information on the sections implemented by  a
+ particular program).  If the SECTION qualifier is not used,
+ the section named DEFAULT, which must  be  present  in  all
+ programs,  is  executed.   Only  those tests defined by the
+ programmer to be within the specified section are executed.
+
+ Examples:
+    START /SECTION=SEEK
+    START /SEC:DEFAULT
+/SUBTEST=num
+/TEST=first[=last]
+ The value first defines a test number, within the  selected
+ section,  at  which  to  begin  program  testing.  No lower
+ numbered tests will be execute.
+
+ If the value last is also  used,  it  defines  the  highest
+ number test to execute.
+
+ Alternatively,  the  value  first  may   be   used   alone,
+ specifying  only  the  starting  test  number.   If so, the
+ /SUBTEST=num qualifier can be used (note that the  /SUBTEST
+ qualifier otherwise is meaningless and should not be used).
+ When this form is used, execution will begin at test first.
+ If  the /SUBTEST qualifier was used, execution will proceed
+ until subtest num is  encountered.   If  the  /PASSES=count
+ qualifier is also used, the program will repeatedly loop on
+ that one subtest until termination, once  the  subtest  has
+ been  reached once.  If the /SUBTEST qualifier is not used,
+ testing continues to the last test of the section.
+
+ If the /TEST qualifier is not used, first  defaults  to  1,
+ and  last  defaults  to  the  highest  test  number  in the
+ selected section.
+
+ The values first, last, and num are decimal numbers.
+/PASSES=count
+ After  program  execution,  as  defined  by  use  of  other
+ qualifiers,  has  been  completed, count is decremented and
+ execution continues;  the program  will  loop  through  the
+ specified cycle count times.
+
+ As a special case, if the count is zero, the  program  will
+ loop indefinitely.
+
+ If the /PASSES qualifier is not used, count defaults  to  1
+ unless the SEARCH flag is set, in which case count defaults
+ to  infinity.   Type  "HELP  SPECIFY  FLAGS   SEARCH"   for
+ information on the SEARCH feature.
+/QA
+ Use  of  this  qualifier  causes   the   currently   loaded
+ diagnostic to undergo a number of Quality Assurance checks.
+ Type 'HELP QA START /QA' for more information.
+1 SUMMARY
+ Dispatch control to the program's summary-generating code.   The
+ effects  of  this  command  are  program-dependent.   Type "HELP
+ program SUMMARY" for information on the summary of a  particular
+ program.
+
+ Format:
+    SUMMARY
+                                                                                                                                 

@@ -1,0 +1,83 @@
+Name            Size   Date          Start  Flags
+----------------------------------------------------------------
+TU5834.VI0         0   06-JUN-1984      14  
+CONSOL.EXE        26   06-JUN-1984      14  
+POWER.CMD          1   06-JUN-1984      40  
+CONSLE.CPU        13   06-JUN-1984      41  
+MMIE.CPU          12   06-JUN-1984      54  
+POWER.CPU          5   06-JUN-1984      66  
+CODE00.CMD         1   06-JUN-1984      71  
+CODE01.CMD         1   06-JUN-1984      72  
+CODE02.CMD         1   06-JUN-1984      73  
+CODE03.CMD         1   06-JUN-1984      74  
+FP.CPU            19   06-JUN-1984      75  
+FPSP.CPU          19   06-JUN-1984      94  
+BITFLD.CPU         5   06-JUN-1984     113  
+CM.CPU             8   06-JUN-1984     118  
+BASIC.CPU         42   06-JUN-1984     126  
+IRDFPA.CPU        42   06-JUN-1984     168  
+QUEUE.CPU          8   06-JUN-1984     210  
+IDC.CPU            7   06-JUN-1984     218  
+VMB.EXE           36   06-JUN-1984     225  
+DEFBOO.CMD         1   06-JUN-1984     261  E.EMPTY
+CRABOO.CMD         1   06-JUN-1984     262  
+CRMBOO.CMD         1   06-JUN-1984     263  
+DQ0BOO.CMD         1   06-JUN-1984     264  
+DQ1BOO.CMD         1   06-JUN-1984     265  
+DQ2BOO.CMD         1   06-JUN-1984     266  
+DQ3BOO.CMD         1   06-JUN-1984     267  
+DQ0GEN.            1   06-JUN-1984     268  
+DQ1GEN.            1   06-JUN-1984     269  
+DQ2GEN.            1   06-JUN-1984     270  
+DQ3GEN.            1   06-JUN-1984     271  
+DQ0XDT.            1   06-JUN-1984     272  
+DQAXDT.            1   06-JUN-1984     273  
+DU0BOO.CMD         1   06-JUN-1984     274  
+DU1BOO.CMD         1   06-JUN-1984     275  
+DU2BOO.CMD         1   06-JUN-1984     276  
+DU3BOO.CMD         1   06-JUN-1984     277  
+DU0GEN.            1   06-JUN-1984     278  
+DU1GEN.            1   06-JUN-1984     279  
+DU2GEN.            1   06-JUN-1984     280  
+DU3GEN.            1   06-JUN-1984     281  
+DU0XDT.            1   06-JUN-1984     282  
+DUAXDT.            1   06-JUN-1984     283  
+CS1BOO.CMD         1   06-JUN-1984     284  
+CS1GEN.            1   06-JUN-1984     285  
+DL0BOO.CMD         1   06-JUN-1984     286  
+DL0GEN.            1   06-JUN-1984     287  
+DL0XDT.            1   06-JUN-1984     288  
+DM0BOO.CMD         1   06-JUN-1984     289  
+DM1BOO.CMD         1   06-JUN-1984     290  
+DMABOO.CMD         1   06-JUN-1984     291  
+DM0GEN.            1   06-JUN-1984     292  
+DM1GEN.            1   06-JUN-1984     293  
+DMAGEN.            1   06-JUN-1984     294  
+DM0XDT.            1   06-JUN-1984     295  
+DM1XDT.            1   06-JUN-1984     296  
+CRASH.             1   06-JUN-1984     297  
+DEFBOO.RL          1   06-JUN-1984     298  
+SM0BOO.CMD         1   06-JUN-1984     299  
+SL0BOO.CMD         1   06-JUN-1984     300  
+SQ0BOO.CMD         1   06-JUN-1984     301  
+SQ1BOO.CMD         1   06-JUN-1984     302  
+SQ2BOO.CMD         1   06-JUN-1984     303  
+SQ3BOO.CMD         1   06-JUN-1984     304  
+SU0BOO.CMD         1   06-JUN-1984     305  
+SU1BOO.CMD         1   06-JUN-1984     306  
+SU2BOO.CMD         1   06-JUN-1984     307  
+SU3BOO.CMD         1   06-JUN-1984     308  
+ENKAZ.EXE         14   06-JUN-1984     309  
+BOOT.EXE           7   06-JUN-1984     323  
+DEFBOO.CMD         1   12-NOV-1984     330  
+STBBOO.CMD         1   13-NOV-1984     331  
+.                180                   332  E.EMPTY
+ 
+  512 total blocks
+  498 data blocks
+   14 reserved blocks
+  317 blocks used by permanent files
+  181 blocks free in 2 fragments
+    4 directory segments
+   72 of 288 directory entries used
+ 

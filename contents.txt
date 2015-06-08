@@ -1,0 +1,121 @@
+--------------------------------------------------------
+[BE-T173I-ME]
+Volume: CONSOLE     
+ Owner: RELEASE     
+
+Name  .Ext   Blks    Date     Start    Extras
+
+TU5834.VI0     0    6-JUN-84    16   
+CONSOL.EXE    32    6-JUN-84    16   
+POWER .CMD     1    6-JUN-84    50   
+CONSLE.CPU    15    6-JUN-84    51   
+MMIE  .CPU    14    6-JUN-84    66   
+POWER .CPU     5    6-JUN-84   102   
+CODE00.CMD     1    6-JUN-84   107   
+CODE01.CMD     1    6-JUN-84   110   
+CODE02.CMD     1    6-JUN-84   111   
+CODE03.CMD     1    6-JUN-84   112   
+FP    .CPU    23    6-JUN-84   113   
+FPSP  .CPU    23    6-JUN-84   136   
+BITFLD.CPU     5    6-JUN-84   161   
+CM    .CPU    10    6-JUN-84   166   
+BASIC .CPU    52    6-JUN-84   176   
+IRDFPA.CPU    52    6-JUN-84   250   
+QUEUE .CPU    10    6-JUN-84   322   
+IDC   .CPU     7    6-JUN-84   332   
+VMB   .EXE    44    6-JUN-84   341   
+< unused >     1               405
+CRABOO.CMD     1    6-JUN-84   406   
+CRMBOO.CMD     1    6-JUN-84   407   
+DQ0BOO.CMD     1    6-JUN-84   410   
+DQ1BOO.CMD     1    6-JUN-84   411   
+DQ2BOO.CMD     1    6-JUN-84   412   
+DQ3BOO.CMD     1    6-JUN-84   413   
+DQ0GEN.        1    6-JUN-84   414   
+DQ1GEN.        1    6-JUN-84   415   
+DQ2GEN.        1    6-JUN-84   416   
+DQ3GEN.        1    6-JUN-84   417   
+DQ0XDT.        1    6-JUN-84   420   
+DQAXDT.        1    6-JUN-84   421   
+DU0BOO.CMD     1    6-JUN-84   422   
+DU1BOO.CMD     1    6-JUN-84   423   
+DU2BOO.CMD     1    6-JUN-84   424   
+DU3BOO.CMD     1    6-JUN-84   425   
+DU0GEN.        1    6-JUN-84   426   
+DU1GEN.        1    6-JUN-84   427   
+DU2GEN.        1    6-JUN-84   430   
+DU3GEN.        1    6-JUN-84   431   
+DU0XDT.        1    6-JUN-84   432   
+DUAXDT.        1    6-JUN-84   433   
+CS1BOO.CMD     1    6-JUN-84   434   
+CS1GEN.        1    6-JUN-84   435   
+DL0BOO.CMD     1    6-JUN-84   436   
+DL0GEN.        1    6-JUN-84   437   
+DL0XDT.        1    6-JUN-84   440   
+DM0BOO.CMD     1    6-JUN-84   441   
+DM1BOO.CMD     1    6-JUN-84   442   
+DMABOO.CMD     1    6-JUN-84   443   
+DM0GEN.        1    6-JUN-84   444   
+DM1GEN.        1    6-JUN-84   445   
+DMAGEN.        1    6-JUN-84   446   
+DM0XDT.        1    6-JUN-84   447   
+DM1XDT.        1    6-JUN-84   450   
+CRASH .        1    6-JUN-84   451   
+DEFBOO.RL      1    6-JUN-84   452   
+SM0BOO.CMD     1    6-JUN-84   453   
+SL0BOO.CMD     1    6-JUN-84   454   
+SQ0BOO.CMD     1    6-JUN-84   455   
+SQ1BOO.CMD     1    6-JUN-84   456   
+SQ2BOO.CMD     1    6-JUN-84   457   
+SQ3BOO.CMD     1    6-JUN-84   460   
+SU0BOO.CMD     1    6-JUN-84   461   
+SU1BOO.CMD     1    6-JUN-84   462   
+SU2BOO.CMD     1    6-JUN-84   463   
+SU3BOO.CMD     1    6-JUN-84   464   
+ENKA, .EXE    16    6-JUN-84   465   
+BOOT  .EXE     7    6-JUN-84   503   
+DEFBOO.CMD     1   12-NOV-84   512   
+STBBOO.CMD     1   13-NOV-84   513   
+< unused >   264               514
+
+--------------------------------------------------------
+[BE-T175I-DE]
+Volume: 
+ Owner: 
+
+Name  .Ext   Blks    Date     Start    Extras
+
+TU5835.VI0     0   27-MAR-84    10   
+DEFBOO.CMD     1   27-MAR-84    10   
+ENSAA .EXE   345   27-MAR-84    11   
+EVSAA .HLP   213   27-MAR-84   356   
+DIAGBO.EXE    35   27-MAR-84   571   
+< unused >   152               626
+
+--------------------------------------------------------
+[BE-T176I-DE]
+Volume: 
+ Owner: 
+
+Name  .Ext   Blks    Date     Start    Extras
+
+TU5836.VI0     0   14-SEP-83    10   
+BOOT  .EXE     7   14-SEP-83    10   
+ENKAA .EXE    22   14-SEP-83    17   
+ENKAB .EXE    20   14-SEP-83    41   
+ENKBA .EXE     7   14-SEP-83    61   
+ENKBB .EXE     7   14-SEP-83    70   
+ENKBC .EXE     7   14-SEP-83    77   
+ENKBD .EXE     7   14-SEP-83   106   
+ENKBE .EXE     7   14-SEP-83   115   
+ENKBF .EXE     2   14-SEP-83   124   
+ENKBG .EXE     1   14-SEP-83   126   
+ENKCA .EXE   123   14-SEP-83   127   
+ENKCB .EXE   140   14-SEP-83   252   
+ENKCC .EXE    63   14-SEP-83   412   
+ENKCD .EXE    33   14-SEP-83   475   
+ENKCE .EXE   107   14-SEP-83   530   
+ENKCF .EXE    52   14-SEP-83   637   
+ENKCG .EXE    25   14-SEP-83   711   
+ENKCH .EXE    13   14-SEP-83   736   
+< unused >    27               751
