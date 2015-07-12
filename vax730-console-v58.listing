@@ -1,0 +1,84 @@
+Name            Size   Date          Start  Flags
+----------------------------------------------------------------
+TU5834.VM0         0   12-JUL-2015      14  
+CONSOL.EXE        26   12-JUL-2015      14  
+POWER.CMD          1   12-JUL-2015      40  
+CONSLE.CPU        13   12-JUL-2015      41  
+MMIE.CPU          12   12-JUL-2015      54  
+POWER.CPU          5   12-JUL-2015      66  
+CODE00.CMD         1   12-JUL-2015      71  
+CODE01.CMD         1   12-JUL-2015      72  
+CODE02.CMD         1   12-JUL-2015      73  
+CODE03.CMD         1   12-JUL-2015      74  
+FP.CPU            19   12-JUL-2015      75  
+FPSP.CPU          19   12-JUL-2015      94  
+BITFLD.CPU         5   12-JUL-2015     113  
+CM.CPU             8   12-JUL-2015     118  
+BASIC.CPU         42   12-JUL-2015     126  
+IRDFPA.CPU        42   12-JUL-2015     168  
+QUEUE.CPU          8   12-JUL-2015     210  
+IDC.CPU            7   12-JUL-2015     218  
+VMB.EXE           40   12-JUL-2015     225  
+DEFBOO.CMD         1   12-JUL-2015     265  
+CRABOO.CMD         1   12-JUL-2015     266  
+CRMBOO.CMD         1   12-JUL-2015     267  
+ENKAZ.EXE         15   12-JUL-2015     268  
+DL1BOO.CMD         1   12-JUL-2015     283  
+DL2BOO.CMD         1   12-JUL-2015     284  
+DL3BOO.CMD         1   12-JUL-2015     285  
+DQ0BOO.CMD         1   12-JUL-2015     286  
+DQ1BOO.CMD         1   12-JUL-2015     287  
+DQ2BOO.CMD         1   12-JUL-2015     288  
+DQ3BOO.CMD         1   12-JUL-2015     289  
+DQ0GEN.            1   12-JUL-2015     290  
+DQ1GEN.            1   12-JUL-2015     291  
+DQ2GEN.            1   12-JUL-2015     292  
+DQ3GEN.            1   12-JUL-2015     293  
+DQ0XDT.            1   12-JUL-2015     294  
+DQAXDT.            1   12-JUL-2015     295  
+DUABOO.CMD         1   12-JUL-2015     296  
+DU0BOO.CMD         1   12-JUL-2015     297  
+DU1BOO.CMD         1   12-JUL-2015     298  
+DU2BOO.CMD         1   12-JUL-2015     299  
+DU3BOO.CMD         1   12-JUL-2015     300  
+DU0GEN.            1   12-JUL-2015     301  
+DU1GEN.            1   12-JUL-2015     302  
+DU2GEN.            1   12-JUL-2015     303  
+DU3GEN.            1   12-JUL-2015     304  
+DU0XDT.            1   12-JUL-2015     305  
+DUAXDT.            1   12-JUL-2015     306  
+CS1BOO.CMD         1   12-JUL-2015     307  
+CS1GEN.            1   12-JUL-2015     308  
+DL0BOO.CMD         1   12-JUL-2015     309  
+DL0GEN.            1   12-JUL-2015     310  
+DL0XDT.            1   12-JUL-2015     311  
+DM0BOO.CMD         1   12-JUL-2015     312  
+DM1BOO.CMD         1   12-JUL-2015     313  
+DMABOO.CMD         1   12-JUL-2015     314  
+DM0GEN.            1   12-JUL-2015     315  
+DM1GEN.            1   12-JUL-2015     316  
+DMAGEN.            1   12-JUL-2015     317  
+DM0XDT.            1   12-JUL-2015     318  
+DM1XDT.            1   12-JUL-2015     319  
+CRASH.             1   12-JUL-2015     320  
+DEFBOO.RL          1   12-JUL-2015     321  
+SM0BOO.CMD         1   12-JUL-2015     322  
+SL0BOO.CMD         1   12-JUL-2015     323  
+SQ0BOO.CMD         1   12-JUL-2015     324  
+SQ1BOO.CMD         1   12-JUL-2015     325  
+SQ2BOO.CMD         1   12-JUL-2015     326  
+SQ3BOO.CMD         1   12-JUL-2015     327  
+SU0BOO.CMD         1   12-JUL-2015     328  
+SU1BOO.CMD         1   12-JUL-2015     329  
+SU2BOO.CMD         1   12-JUL-2015     330  
+SU3BOO.CMD         1   12-JUL-2015     331  
+ EMPTY.FIL       180   12-JUL-2015     332  E.EMPTY
+ 
+  512 total blocks
+  498 data blocks
+   14 reserved blocks
+  318 blocks used by permanent files
+  180 blocks free in 1 fragments
+    4 directory segments
+   73 of 288 directory entries used
+ 
